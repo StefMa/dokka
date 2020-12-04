@@ -103,4 +103,12 @@ abstract class AbstractIntegrationTest {
             "Unexpected empty <span></span> in file ${file.path}"
         )
     }
+
+    protected fun assertNoUnsubstitutedTemplates(file: File) {
+        val parsedFile = Jsoup.parse(file, "UTF-8")
+        assertTrue(
+            parsedFile.select("dokka-template-command").isEmpty(),
+            "Expected all templates to be substituted"
+        )
+    }
 }
