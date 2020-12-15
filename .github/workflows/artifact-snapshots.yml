@@ -25,13 +25,13 @@ jobs:
         run: ./gradlew :integration-tests:gradle:integrationTest --tests org.jetbrains.dokka.it.gradle.kotlin.CoroutinesGradleIntegrationTest --stacktrace
         timeout-minutes: 60
         env:
-          DOKKA_IT_AWS_PATH: /home/runner/work/dokka/coroutines
+          DOKKA_IT_AWS_PATH: /home/runner/work/dokka/dokka/coroutines
 
       - name: Copy files to GitHub Actions Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: dokka-coroutines
-          path: ../coroutines
+          path: coroutines
 
   stdlib:
     runs-on: ubuntu-latest
@@ -51,13 +51,13 @@ jobs:
       - name: Document stdlib
         run: ./gradlew :integration-tests:gradle:integrationTest --tests org.jetbrains.dokka.it.gradle.kotlin.StdlibGradleIntegrationTest --stacktrace
         env:
-          DOKKA_IT_AWS_PATH: /home/runner/work/dokka/stdlib
+          DOKKA_IT_AWS_PATH: /home/runner/work/dokka/dokka/stdlib
 
       - name: Copy files to GitHub Actions Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: dokka-stdlib
-          path: ../stdlib
+          path: ./stdlib
 
 #  serialization:
 #    runs-on: ubuntu-latest
@@ -109,4 +109,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: dokka-biojava
-          path: ../biojava
+          path: biojava
