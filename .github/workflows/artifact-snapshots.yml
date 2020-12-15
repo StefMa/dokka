@@ -1,0 +1,112 @@
+name: Build example projects and publish them to GitHub Actions Artifacts
+
+on: push
+
+env:
+  branch-name: ${GITHUB_REF#refs/heads/}
+
+jobs:
+  coroutines:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout dokka
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 12
+
+      - name: Publish dokka locally
+        run: ./gradlew publishToMavenLocal --stacktrace
+
+      - name: Document coroutines
+        run: ./gradlew :integration-tests:gradle:integrationTest --tests org.jetbrains.dokka.it.gradle.kotlin.CoroutinesGradleIntegrationTest --stacktrace
+        timeout-minutes: 60
+        env:
+          DOKKA_IT_AWS_PATH: /home/runner/work/dokka/coroutines
+
+      - name: Copy files to GitHub Actions Artifacts
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dokka-coroutines
+          path: ../coroutines
+
+  stdlib:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout dokka
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 12
+
+      - name: Publish dokka locally
+        run: ./gradlew clean publishToMavenLocal --stacktrace
+
+      - name: Document stdlib
+        run: ./gradlew :integration-tests:gradle:integrationTest --tests org.jetbrains.dokka.it.gradle.kotlin.StdlibGradleIntegrationTest --stacktrace
+        env:
+          DOKKA_IT_AWS_PATH: /home/runner/work/dokka/stdlib
+
+      - name: Copy files to GitHub Actions Artifacts
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dokka-stdlib
+          path: ../stdlib
+
+#  serialization:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout dokka
+#        uses: actions/checkout@v2
+#        with:
+#          submodules: true
+#
+#      - uses: actions/setup-java@v1
+#        with:
+#          java-version: 12
+#
+#      - name: Publish dokka locally
+#        run: ./gradlew clean publishToMavenLocal --stacktrace
+#
+#      - name: Document serialization
+#        run: ./gradlew :integration-tests:gradle:integrationTest --tests org.jetbrains.dokka.it.gradle.kotlin.SerializationGradleIntegrationTest --stacktrace
+#        env:
+#          DOKKA_IT_AWS_PATH: /home/runner/work/dokka/serialization
+#
+#      - name: Copy files to GitHub Actions Artifacts
+#      - uses: actions/upload-artifact@v2
+#        with:
+#          name: dokka-serialization
+#          path: ../serialization
+
+  biojava:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout dokka
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 12
+
+      - name: Publish dokka locally
+        run: ./gradlew clean publishToMavenLocal --stacktrace
+
+      - name: Document biojava-core
+        run: ./gradlew :integration-tests:maven:integrationTest --tests org.jetbrains.dokka.it.maven.BiojavaIntegrationTest --stacktrace
+        env:
+          DOKKA_IT_AWS_PATH: /home/runner/work/dokka/biojava
+          
+      - name: Copy files to GitHub Actions Artifacts
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dokka-biojava
+          path: ../biojava
