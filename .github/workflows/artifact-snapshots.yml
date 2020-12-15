@@ -28,7 +28,7 @@ jobs:
           DOKKA_IT_AWS_PATH: /home/runner/work/dokka/coroutines
 
       - name: Copy files to GitHub Actions Artifacts
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: dokka-coroutines
           path: ../coroutines
@@ -54,7 +54,7 @@ jobs:
           DOKKA_IT_AWS_PATH: /home/runner/work/dokka/stdlib
 
       - name: Copy files to GitHub Actions Artifacts
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: dokka-stdlib
           path: ../stdlib
@@ -80,7 +80,7 @@ jobs:
 #          DOKKA_IT_AWS_PATH: /home/runner/work/dokka/serialization
 #
 #      - name: Copy files to GitHub Actions Artifacts
-#      - uses: actions/upload-artifact@v2
+#        uses: actions/upload-artifact@v2
 #        with:
 #          name: dokka-serialization
 #          path: ../serialization
@@ -106,7 +106,7 @@ jobs:
           DOKKA_IT_AWS_PATH: /home/runner/work/dokka/biojava
           
       - name: Copy files to GitHub Actions Artifacts
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: dokka-biojava
           path: ../biojava
